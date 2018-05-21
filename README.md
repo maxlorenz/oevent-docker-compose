@@ -21,3 +21,11 @@ docker-compose start
 docker-compose run v1 python create_db.py && python manage.py db stamp head 
 docker-compose run v2 python create_db.py && python manage.py db stamp head
 ```
+
+## Running everything
+
+Everything is up when you start
+
+```bash
+docker-compose up
+```
