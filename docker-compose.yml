@@ -1,0 +1,59 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_USER=openevent
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=openevent
+    volumes:
+      - psql:/var/lib/postgresql/data
+      - ./postgres-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 127.0.0.1:5432:5432
+
+  redis:
+    image: redis:3-alpine
+    command: redis-server
+    volumes:
+      - ./data/redis:/var/lib/redis/data
+    ports:
+      - 127.0.0.1:6379:6379
+
+  v1:
+    build: v1/
+    environment:
+      DATABASE_URL: postgresql://v1:v1-password@postgres:5432/oevent_1
+      REDIS_URL: redis://redis:6379/0
+      C_FORCE_ROOT: "true"
+    ports: 
+      - 127.0.0.1:5001:5000
+    links:
+      - postgres:postgres
+      - redis:redis
+
+  v2-server:
+    build: v2-server/
+    environment:
+      DATABASE_URL: postgresql://v2:v2-password@postgres:5432/oevent_2
+      REDIS_URL: redis://redis:6379/0
+      C_FORCE_ROOT: "true"
+    ports: 
+      - 127.0.0.1:5002:5000
+    links:
+      - postgres:postgres
+      - redis:redis
+
+  v2-frontend:
+    image: kkarczmarczyk/node-yarn:8.0
+    working_dir: /app
+    ports:
+      - 127.0.0.1:5003:4200
+    volumes: 
+      - ./v2-frontend:/app
+    command: sh -c "yarn && ember server"
+
+volumes:
+  psql:
+    driver: local
