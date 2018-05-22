@@ -17,6 +17,7 @@ docker-compose up
 Two databases and users are created to allow for using one postgres image with both versions. See `postgres-initdb.d/create_db.sql` for details. To init both databases, run
 
 ```bash
+cp v2-frontend/.env.example v2-frontend/.env
 docker-compose start
 docker-compose run v1 python create_db.py && python manage.py db stamp head 
 docker-compose run v2 python create_db.py && python manage.py db stamp head
