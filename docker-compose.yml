@@ -55,6 +55,7 @@ services:
     command: > 
       sh -c "git config --global url.'https://'.insteadOf git:// &&
       yarn && 
+      yarn global add ember-cli &&
       ember server"
 
 volumes:
