@@ -29,8 +29,8 @@ To access Postgres, Redis and v1/v2 from outside, use
 
 **App** | **Port**
 --- | ---:
-postgres | 95432
-redis | 96379
+postgres | 5432
+redis | 6379
 v1 | 5001
 v2 server | 5002
 v2 frontend | 5003
