@@ -56,7 +56,7 @@ services:
       sh -c "git config --global url.'https://'.insteadOf git:// &&
       yarn && 
       yarn global add ember-cli &&
-      ember server"
+      ./node_modules/.bin/ember server"
 
 volumes:
   psql:
