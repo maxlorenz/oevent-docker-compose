@@ -11,7 +11,7 @@ services:
       - psql:/var/lib/postgresql/data
       - ./postgres-initdb.d:/docker-entrypoint-initdb.d
     ports:
-      - 127.0.0.1:5432:5432
+      - 127.0.0.1:95432:5432
 
   redis:
     image: redis:3-alpine
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./data/redis:/var/lib/redis/data
     ports:
-      - 127.0.0.1:6379:6379
+      - 127.0.0.1:96379:6379
 
   v1:
     build: v1/
@@ -46,13 +46,16 @@ services:
       - redis:redis
 
   v2-frontend:
-    image: kkarczmarczyk/node-yarn:8.0
+    image: node:8
     working_dir: /app
     ports:
       - 127.0.0.1:5003:4200
     volumes: 
       - ./v2-frontend:/app
-    command: sh -c "yarn && ember server"
+    command: > 
+      sh -c "git config --global url.'https://'.insteadOf git:// &&
+      yarn && 
+      ember server"
 
 volumes:
   psql:

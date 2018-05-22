@@ -9,7 +9,7 @@ In order to have the two projects running, execute `clone.sh` or copy the three 
 ## Starting the system
 
 ```bash
-> docker-compose up
+docker-compose up
 ```
 
 ## Initializing the database
@@ -22,10 +22,15 @@ docker-compose run v1 python create_db.py && python manage.py db stamp head
 docker-compose run v2 python create_db.py && python manage.py db stamp head
 ```
 
-## Running everything
+## Accessing the database etc
 
-Everything is up when you start
+To access Postgres, Redis and v1/v2 from outside, use
 
-```bash
-docker-compose up
-```
+**App** | **Port**
+--- | ---:
+postgres | 95432
+redis | 96379
+v1 | 5001
+v2 server | 5002
+v2 frontend | 5003
+
