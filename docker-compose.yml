@@ -27,6 +27,7 @@ services:
       DATABASE_URL: postgresql://v1:v1-password@postgres:5432/oevent_1
       REDIS_URL: redis://redis:6379/0
       C_FORCE_ROOT: "true"
+      SERVER_NAME: localhost:5001
     ports: 
       - 127.0.0.1:5001:5000
     links:
@@ -46,8 +47,10 @@ services:
       - redis:redis
 
   v2-frontend:
-    image: node:8
+    image: node:7
     working_dir: /app
+    environment:
+      API_HOST: localhost:5002
     ports:
       - 127.0.0.1:5003:4200
     volumes: 
@@ -55,8 +58,8 @@ services:
     command: > 
       sh -c "git config --global url.'https://'.insteadOf git:// &&
       yarn && 
-      yarn add ember-cli &&
-      ./node_modules/.bin/ember server"
+      yarn global add ember-cli &&
+      ember server"
 
 volumes:
   psql:
