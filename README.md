@@ -18,9 +18,10 @@ Two databases and users are created to allow for using one postgres image with b
 
 ```bash
 cp v2-frontend/.env.example v2-frontend/.env
+cp v2-server/.env.example v2-server/.env
 docker-compose start
-docker-compose run v1 sh -c "python create_db.py && python manage.py db stamp head"
-docker-compose run v2-server sh -c "python create_db.py && python manage.py db stamp head"
+docker-compose run v1 sh -c "python3 create_db.py && python3 manage.py db stamp head"
+docker-compose run v2-server sh -c "python3 create_db.py && python3 manage.py db stamp head && python3 manage.py runserver"
 ```
 
 ## Accessing the database etc
