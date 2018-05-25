@@ -29,10 +29,13 @@ services:
       C_FORCE_ROOT: "true"
       SERVER_NAME: localhost:5001
     ports: 
-      - 127.0.0.1:5001:5000
+      - 0.0.0.0:5001:5000
     links:
       - postgres:postgres
       - redis:redis
+    command: >
+      sh -c "python manage.py db stamp head&&python manage.py runserver -h 0.0.0.0"
+
 
   v2-server:
     build: v2-server/
@@ -41,10 +44,13 @@ services:
       REDIS_URL: redis://redis:6379/0
       C_FORCE_ROOT: "true"
     ports: 
-      - 127.0.0.1:5002:5000
+      - 0.0.0.0:5002:5000
     links:
       - postgres:postgres
       - redis:redis
+    command: >
+       sh -c "python3 manage.py db stamp head && python3 manage.py runserver -h 0.0.0.0"
+
 
   v2-frontend:
     image: node:7
@@ -52,7 +58,7 @@ services:
     environment:
       API_HOST: localhost:5002
     ports:
-      - 127.0.0.1:5003:4200
+      - 0.0.0.0:5003:4200
     volumes: 
       - ./v2-frontend:/app
     command: > 
